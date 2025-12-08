@@ -6,7 +6,12 @@ using namespace std;
 #define W 15
 
 char board[H][W];
-int x = 5, row = 0;
+int x = 5, y = 0;
+
+void gotoxy(int x, int y) {
+    COORD c = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
 
 void initBoard() {
     for (int i = 0; i < H; i++)
@@ -15,7 +20,7 @@ void initBoard() {
 }
 
 void draw() {
-    system("cls");
+    gotoxy(0, 0);
     for (int i = 0; i < H; i++, cout << endl)
         for (int j = 0; j < W; j++)
             cout << board[i][j];
@@ -24,12 +29,13 @@ void draw() {
 int main() {
     initBoard();
     while (1) {
-        board[row][x] = 'O';  
+        board[y][x] = 'X';  // block
         draw();
-        Sleep(100);          
-        board[row][x] = ' ';
-        x++;                
+        Sleep(200);
 
-        if (x >= W - 1) x = 1;
+        board[y][x] = ' ';  // xóa vị trí cũ
+        y++;                // tăng y → block rơi
+
+        if (y >= H - 1) y = 0; // reset cho dễ test
     }
 }

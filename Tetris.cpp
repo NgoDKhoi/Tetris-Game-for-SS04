@@ -6,19 +6,16 @@ using namespace std;
 
 char board[H][W]; // Bảng chơi Tetris
 
-// Khởi tạo board: viền '#' và bên trong ' '
+// ================= Board =================
 void initBoard() {
-    for (int i = 0; i < H; i++) {
-        for (int j = 0; j < W; j++) {
+    for (int i = 0; i < H; i++)
+        for (int j = 0; j < W; j++)
             if (i == H - 1 || j == 0 || j == W - 1)
-                board[i][j] = '#';  // viền dưới và hai bên
+                board[i][j] = '#';
             else
-                board[i][j] = ' ';  // ô trống
-        }
-    }
+                board[i][j] = ' ';
 }
 
-// Vẽ board ra console
 void draw() {
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++)
@@ -27,9 +24,36 @@ void draw() {
     }
 }
 
+// ================= Blocks =================
+char blocks[2][4][4] = {
+    // I
+    {{' ','I',' ',' '},
+     {' ','I',' ',' '},
+     {' ','I',' ',' '},
+     {' ','I',' ',' '}},
+
+    // O
+    {{' ','O','O',' '},
+     {' ','O','O',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}}
+};
+
+int x = 5, y = 0; // vị trí block hiện tại
+int b = 0;        // block hiện tại (0: I, 1: O)
+
+// Copy block vào board
+void block2Board() {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (blocks[b][i][j] != ' ')
+                board[y + i][x + j] = blocks[b][i][j];
+}
+
 int main() {
-    initBoard(); // Khởi tạo board rỗng
-    draw();      // Vẽ board ra màn hình
+    initBoard();   // Khởi tạo board
+    block2Board(); // Thêm block hiện tại vào board
+    draw();        // Vẽ board và block
 
     return 0;
 }

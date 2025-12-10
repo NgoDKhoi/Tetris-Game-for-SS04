@@ -12,7 +12,7 @@ int x = 5, y = 0; // Vị trí của block
 // Hàm đưa con trỏ console
 void gotoxy(int x, int y)
 {
-    COORD c = {x, y};
+    COORD c = {(SHORT)x, (SHORT)y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 

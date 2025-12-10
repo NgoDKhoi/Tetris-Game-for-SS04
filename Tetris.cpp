@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include <windows.h>
 using namespace std;
 
@@ -6,36 +7,87 @@ using namespace std;
 #define W 15
 
 char board[H][W];
-int x = 5, y = 0;
+int x = 5, y = 0; // Vị trí của block
 
-void gotoxy(int x, int y) {
+// Hàm đưa con trỏ console
+void gotoxy(int x, int y)
+{
     COORD c = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-void initBoard() {
+// Khởi tạo bảng
+void initBoard()
+{
     for (int i = 0; i < H; i++)
         for (int j = 0; j < W; j++)
-            board[i][j] = (i == H - 1 || j == 0 || j == W - 1) ? '#' : ' ';
+            if (i == H - 1 || j == 0 || j == W - 1)
+                board[i][j] = '#';
+            else
+                board[i][j] = ' ';
 }
 
-void draw() {
+// Vẽ bảng
+void draw()
+{
     gotoxy(0, 0);
-    for (int i = 0; i < H; i++, cout << endl)
+    for (int i = 0; i < H; i++)
+    {
         for (int j = 0; j < W; j++)
             cout << board[i][j];
+        cout << endl;
+    }
 }
 
-int main() {
+// Kiểm tra có thể di chuyển
+bool canMove(int dx, int dy)
+{
+    int nx = x + dx;
+    int ny = y + dy;
+
+    if (nx <= 0 || nx >= W - 1)
+        return false;
+    if (ny >= H - 1)
+        return false;
+
+    return true;
+}
+
+int main()
+{
+    system("cls");
     initBoard();
-    while (1) {
-        board[y][x] = 'X';  // block
+
+    while (1)
+    {
+
+        // Điều khiển
+        if (kbhit())
+        {
+            char c = getch();
+            if (c == 'a' && canMove(-1, 0))
+                x--;
+            if (c == 'd' && canMove(1, 0))
+                x++;
+            if (c == 'q')
+                break;
+        }
+
+        // Vẽ vị trí block
+        board[y][x] = 'O';
         draw();
-        Sleep(200);
+        board[y][x] = ' '; // Xóa block để cập nhật frame tiếp
 
-        board[y][x] = ' ';  // xóa vị trí cũ
-        y++;                // tăng y → block rơi
+        Sleep(150);
+        y++; // block rơi
 
-        if (y >= H - 1) y = 0; // reset cho dễ test
+        if (!canMove(0, 1))
+        {
+            board[y][x] = 'O';
+            draw();
+            break;
+        }
     }
+
+    return 0;
 }

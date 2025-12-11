@@ -102,6 +102,11 @@ int main() {
         if (!canMove(0, 1)) {
             block2Board();
             draw();
+
+            // reset new block
+            y = 0;
+            x = 5;
+            b = rand() % 2;
             break;
         }
 

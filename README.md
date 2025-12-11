@@ -35,4 +35,28 @@ trong lịch sử.
 - Được nhiều nghiên cứu chứng minh mang lại tác động tích cực đến:
 khả năng phản xạ, trí nhớ, tư duy không gian.
 
+## Gameplay cơ bản
+Trong Tetris, người chơi điều khiển các khối hình học gọi là Tetromino
+– mỗi khối được cấu tạo từ bốn ô vuông. Các khối rơi từ phía trên màn
+hình xuống, và người chơi phải xoay, di chuyển và sắp xếp chúng sao cho tạo
+thành một hàng ngang đầy đủ. Khi một hàng được lấp kín hoàn toàn, hàng
+đó sẽ biến mất và người chơi được cộng điểm.
+Trò chơi kết thúc khi các khối bị chồng lên đến đỉnh màn hình, khiến
+người chơi không còn không gian để đặt Tetromino mới.
+
+### Các loại Tetromino trong Tetris
+- I – Khối dài thẳng.
+- O – Khối vuông.
+- T – Dạng chữ T.
+- L – Dạng chữ L.
+- J – Dạng chữ J (L ngược).
+- S – Khối ziczac hướng trái.
+- Z – Khối ziczac hướng phải.
+  
+Để đạt điểm cao, người chơi cần áp dụng các chiến thuật ngắn hạn
+(vị trí đặt từng khối rơi) kết hợp với chiến thuật dài hạn (quy hoạch mặt
+phẳng, chừa chỗ tạo Tetris – phá 4 hàng cùng lúc). Khả năng phản xạ, tư
+duy không gian và sự linh hoạt khi xử lý tình huống là yếu tố then chốt trong
+gameplay của Tetris.
+
 

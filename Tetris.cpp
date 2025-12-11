@@ -65,12 +65,10 @@ int main()
         if (kbhit())
         {
             char c = getch();
-            if (c == 'a' && canMove(-1, 0))
-                x--;
-            if (c == 'd' && canMove(1, 0))
-                x++;
-            if (c == 'q')
-                break;
+            if (c == 'a' && canMove(-1, 0)) x--;
+            if (c == 'd' && canMove(1, 0)) x++;
+            if (c == 's' && canMove(0, 1)) y++;
+            if (c == 'q') break;
         }
 
         // Vẽ vị trí block

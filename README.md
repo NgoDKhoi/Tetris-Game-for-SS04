@@ -9,7 +9,8 @@
 ![alt text](Image/Background_Tetris.png)
 
 ## Một số link khác của nhóm:
-`Overleaf`: https://www.overleaf.com/read/mctjygkthkkv#66e8f5
-`Trello`: https://trello.com/b/8489k7jo/nhom-knnn
+`Overleaf`: https://www.overleaf.com/read/mctjygkthkkv#66e8f5  
+`Trello`: https://trello.com/b/8489k7jo/nhom-knnn  
+`Slack`: https://app.slack.com/client/T09DLM2RRNX/C09V8HS9XMW
 
 

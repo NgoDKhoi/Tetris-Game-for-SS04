@@ -14,6 +14,7 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
+// ================= Line =================
 bool isLineFull(int r) {
     for (int j = 1; j < W - 1; j++)
         if (board[r][j] == ' ')
@@ -28,6 +29,30 @@ int removeLine() {
             count++;
     return count; 
 }
+
+void clearFullLines() {
+    for (int i = H - 2; i >= 0; i--) {
+        if (isLineFull(i)) {
+
+            // Dồn các hàng trên xuống
+            for (int k = i; k > 0; k--)
+                for (int j = 1; j < W - 1; j++)
+                    board[k][j] = board[k-1][j];
+
+            // Hàng trên cùng thành hàng trống
+            for (int j = 1; j < W - 1; j++)
+                board[0][j] = ' ';
+
+            i++; // check lại dòng này sau khi dồn
+        }
+    }
+}
+
+
+
+
+
+
 
 void initBoard() {
     for (int i = 0; i < H; i++)

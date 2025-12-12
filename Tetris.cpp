@@ -14,6 +14,21 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
+bool isLineFull(int r) {
+    for (int j = 1; j < W - 1; j++)
+        if (board[r][j] == ' ')
+            return false;
+    return true;
+}
+
+int removeLine() {
+    int count = 0;
+    for (int i = 0; i < H - 1; i++)
+        if (isLineFull(i))
+            count++;
+    return count; 
+}
+
 void initBoard() {
     for (int i = 0; i < H; i++)
         for (int j = 0; j < W; j++)
@@ -112,7 +127,7 @@ int main() {
 
         block2Board();
         draw();
-        Sleep(150);
+        Sleep(120   );
     }
 
     return 0;

@@ -6,7 +6,7 @@ using namespace std;
 #define H 20
 #define W 15
 
-// ================= Board =================
+// ================= BOARD =================
 char board[H][W];
 
 void gotoxy(int x, int y)
@@ -15,7 +15,30 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-// ================= Line =================
+void initBoard()
+{
+    for (int i = 0; i < H; i++)
+        for (int j = 0; j < W; j++)
+            if (i == H - 1 || j == 0 || j == W - 1)
+                board[i][j] = '#';
+            else
+                board[i][j] = ' ';
+}
+
+void draw(int score)
+{
+    gotoxy(0, 0);
+    for (int i = 0; i < H; i++)
+    {
+        for (int j = 0; j < W; j++)
+            cout << board[i][j];
+        cout << endl;
+    }
+
+    cout << "\nScore: " << score << endl;
+}
+
+// ================= LINE =================
 bool isLineFull(int r)
 {
     for (int j = 1; j < W - 1; j++)
@@ -33,49 +56,28 @@ int removeLine()
     return count;
 }
 
-void clearFullLines()
+void clearFullLines(int &score)
 {
     for (int i = H - 2; i >= 0; i--)
     {
         if (isLineFull(i))
         {
+            score += 100;  // 🎯 Commit 15: +100 điểm mỗi hàng
 
-            // Dồn các hàng trên xuống
+            // Dồn hàng
             for (int k = i; k > 0; k--)
                 for (int j = 1; j < W - 1; j++)
                     board[k][j] = board[k - 1][j];
 
-            // Hàng trên cùng thành hàng trống
             for (int j = 1; j < W - 1; j++)
                 board[0][j] = ' ';
 
-            i++; // check lại dòng này sau khi dồn
+            i++; // kiểm tra lại dòng vừa dồn xuống
         }
     }
 }
 
-void initBoard()
-{
-    for (int i = 0; i < H; i++)
-        for (int j = 0; j < W; j++)
-            if (i == H - 1 || j == 0 || j == W - 1)
-                board[i][j] = '#';
-            else
-                board[i][j] = ' ';
-}
-
-void draw()
-{
-    gotoxy(0, 0);
-    for (int i = 0; i < H; i++)
-    {
-        for (int j = 0; j < W; j++)
-            cout << board[i][j];
-        cout << endl;
-    }
-}
-
-// ================= Blocks =================
+// ================= BLOCKS =================
 char blocks[2][4][4] = {
     // I
     {{' ', 'I', ' ', ' '},
@@ -87,23 +89,22 @@ char blocks[2][4][4] = {
     {{' ', 'O', 'O', ' '},
      {' ', 'O', 'O', ' '},
      {' ', ' ', ' ', ' '},
-     {' ', ' ', ' ', ' '}}};
+     {' ', ' ', ' ', ' '}}
+};
 
 int x = 5, y = 0;
-int b = 0; // 0 = I, 1 = O
+int b = 0; // loại block
 
 bool canMove(int dx, int dy)
 {
     int nx = x + dx;
     int ny = y + dy;
 
-    // Kiểm tra biên
     if (nx <= 0 || nx >= W - 4)
         return false;
     if (ny >= H - 4)
         return false;
 
-    // Kiểm tra va chạm
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (blocks[b][i][j] != ' ')
@@ -129,47 +130,39 @@ void eraseBlock()
                 board[y + i][x + j] = ' ';
 }
 
+// ================= MAIN =================
 int main()
 {
     system("cls");
     initBoard();
 
+    int score = 0;
+
     while (1)
     {
-
+        // ----------- Điều khiển ----------
         if (kbhit())
         {
             char c = getch();
-            if (c == 'a' && canMove(-1, 0))
-            {
-                eraseBlock();
-                x--;
-            }
-            if (c == 'd' && canMove(1, 0))
-            {
-                eraseBlock();
-                x++;
-            }
-            if (c == 's' && canMove(0, 1))
-            {
-                eraseBlock();
-                y++;
-            }
-            if (c == 'q')
-                break;
+
+            if (c == 'a' && canMove(-1, 0)) { eraseBlock(); x--; }
+            if (c == 'd' && canMove(1, 0))  { eraseBlock(); x++; }
+            if (c == 's' && canMove(0, 1))  { eraseBlock(); y++; }
+            if (c == 'q') break;
         }
 
+        // ----------- Rơi tự động ----------
         eraseBlock();
-        y++; // block rơi tự nhiên
+        y++;
 
         if (!canMove(0, 1))
         {
             block2Board();
-            clearFullLines();
-            draw();
+            clearFullLines(score);  // commit 14 & 15
+            draw(score);
             Sleep(120);
 
-            // reset new block
+            // reset block
             x = 5;
             y = 0;
             b = rand() % 2;
@@ -178,7 +171,7 @@ int main()
         }
 
         block2Board();
-        draw();
+        draw(score);
         Sleep(120);
     }
 

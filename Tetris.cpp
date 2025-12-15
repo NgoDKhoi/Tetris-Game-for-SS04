@@ -26,7 +26,6 @@ void initBoard() {
 }
 
 // ============================ BLOCKS ===============================
-// Chuẩn 7 blocks Tetris
 char blocks[7][4][4] = {
     // I
     {{' ','I',' ',' '},
@@ -102,15 +101,48 @@ bool canMove(int dx, int dy) {
                 int tx = x + j + dx;
                 int ty = y + i + dy;
 
-                // Biên
                 if (tx <= 0 || tx >= W - 1) return false;
                 if (ty >= H - 1) return false;
 
-                // Va chạm
                 if (board[ty][tx] != ' ')
                     return false;
             }
     return true;
+}
+
+// ============================ ROTATE ===============================
+// Xoay block theo chiều kim đồng hồ
+void rotateBlock() {
+    char temp[4][4];
+
+    // copy block hiện tại
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            temp[i][j] = blocks[b][i][j];
+
+    // tạo block xoay
+    char rotated[4][4];
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            rotated[j][3 - i] = temp[i][j];
+
+    // Kiểm tra xoay hợp lệ
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (rotated[i][j] != ' ') {
+                int tx = x + j;
+                int ty = y + i;
+
+                if (tx <= 0 || tx >= W - 1) return;  
+                if (ty >= H - 1) return;
+                if (board[ty][tx] != ' ')
+                    return;
+            }
+
+    // Nếu hợp lệ thì ghi vào blocks[b]
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            blocks[b][i][j] = rotated[i][j];
 }
 
 // ============================ LINE CLEAR ===============================
@@ -126,7 +158,6 @@ void clearLines() {
         if (full) {
             count++;
 
-            // Dồn hàng xuống
             for (int k = i; k > 0; k--)
                 for (int t = 1; t < W - 1; t++)
                     board[k][t] = board[k - 1][t];
@@ -168,8 +199,9 @@ int main() {
         if (kbhit()) {
             char c = getch();
             if (c == 'a' && canMove(-1,0)) x--;
-            if (c == 'd' && canMove( 1,0)) x++;
-            if (c == 's' && canMove( 0,1)) y++;
+            if (c == 'd' && canMove(1,0))  x++;
+            if (c == 's' && canMove(0,1))  y++;
+            if (c == 'w') rotateBlock();   // 🔄 XOAY KHỐI
             if (c == 'q') break;
         }
 
@@ -180,11 +212,10 @@ int main() {
             block2Board();
             clearLines();
 
-            // New block
             b = rand() % 7;
-            x = 5; y = 0;
+            x = 5; 
+            y = 0;
 
-            // Game Over?
             if (!canMove(0,0)) {
                 draw();
                 gotoxy(0, H+2);
@@ -195,7 +226,7 @@ int main() {
 
         block2Board();
         draw();
-        Sleep(180);
+        Sleep(170);
     }
 
     return 0;

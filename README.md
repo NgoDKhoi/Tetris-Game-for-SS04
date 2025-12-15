@@ -59,4 +59,6 @@ phẳng, chừa chỗ tạo Tetris – phá 4 hàng cùng lúc). Khả năng ph�
 duy không gian và sự linh hoạt khi xử lý tình huống là yếu tố then chốt trong
 gameplay của Tetris.
 
+## Quá trình làm việc
+
 

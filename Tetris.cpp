@@ -1,22 +1,22 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 #define H 20
 #define W 15
 
-// ================= BOARD =================
+// ============================ BOARD ===============================
 char board[H][W];
 
-void gotoxy(int x, int y)
-{
+void gotoxy(int x, int y) {
     COORD c = {(SHORT)x, (SHORT)y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-void initBoard()
-{
+void initBoard() {
     for (int i = 0; i < H; i++)
         for (int j = 0; j < W; j++)
             if (i == H - 1 || j == 0 || j == W - 1)
@@ -25,184 +25,177 @@ void initBoard()
                 board[i][j] = ' ';
 }
 
-void draw(int score)
-{
-    gotoxy(0, 0);
-    for (int i = 0; i < H; i++)
-    {
-        for (int j = 0; j < W; j++)
-            cout << board[i][j];
-        cout << endl;
-    }
-
-    cout << "\nScore: " << score << endl;
-}
-
-// ================= LINE =================
-bool isLineFull(int r)
-{
-    for (int j = 1; j < W - 1; j++)
-        if (board[r][j] == ' ')
-            return false;
-    return true;
-}
-
-int removeLine()
-{
-    int count = 0;
-    for (int i = 0; i < H - 1; i++)
-        if (isLineFull(i))
-            count++;
-    return count;
-}
-
-void clearFullLines(int &score)
-{
-    for (int i = H - 2; i >= 0; i--)
-    {
-        if (isLineFull(i))
-        {
-            score += 100;  // 🎯 Commit 15: +100 điểm mỗi hàng
-
-            // Dồn hàng
-            for (int k = i; k > 0; k--)
-                for (int j = 1; j < W - 1; j++)
-                    board[k][j] = board[k - 1][j];
-
-            for (int j = 1; j < W - 1; j++)
-                board[0][j] = ' ';
-
-            i++; // kiểm tra lại dòng vừa dồn xuống
-        }
-    }
-}
-
-// ================= BLOCKS =================
+// ============================ BLOCKS ===============================
+// Chuẩn 7 blocks Tetris
 char blocks[7][4][4] = {
     // I
-    {{' ', 'I', ' ', ' '},
-     {' ', 'I', ' ', ' '},
-     {' ', 'I', ' ', ' '},
-     {' ', 'I', ' ', ' '}},
+    {{' ','I',' ',' '},
+     {' ','I',' ',' '},
+     {' ','I',' ',' '},
+     {' ','I',' ',' '}},
 
     // O
-    {{' ', 'O', 'O', ' '},
-     {' ', 'O', 'O', ' '},
-     {' ', ' ', ' ', ' '},
-     {' ', ' ', ' ', ' '}},
-     
+    {{' ','O','O',' '},
+     {' ','O','O',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}},
+
     // T
-    {{' ', 'T', 'T', 'T'},
-     {' ', ' ', 'T', ' '},
-     {' ', ' ', ' ', ' '},
-     {' ', ' ', ' ', ' '}},
-	
-	// S
-    {{' ', ' ', 'S', 'S'},
-     {' ', 'S', 'S', ' '},
-     {' ', ' ', ' ', ' '},
-     {' ', ' ', ' ', ' '}},
-	
-	// Z
-    {{' ', 'Z', 'Z', ' '},
-     {' ', ' ', 'Z', 'Z'},
-     {' ', ' ', ' ', ' '},
-     {' ', ' ', ' ', ' '}},
-	
-	// J
-    {{' ', ' ', 'J', ' '},
-     {' ', ' ', 'J', ' '},
-     {' ', 'J', 'J', ' '},
-     {' ', ' ', ' ', ' '}},
-	
-	// L
-    {{' ', 'L', ' ', ' '},
-     {' ', 'L', ' ', ' '},
-     {' ', 'L', 'L', ' '},
-     {' ', ' ', ' ', ' '}}
+    {{' ','T',' ',' '},
+     {'T','T','T',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}},
+
+    // S
+    {{' ','S','S',' '},
+     {'S','S',' ',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}},
+
+    // Z
+    {{'Z','Z',' ',' '},
+     {' ','Z','Z',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}},
+
+    // J
+    {{'J',' ',' ',' '},
+     {'J','J','J',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}},
+
+    // L
+    {{' ',' ','L',' '},
+     {'L','L','L',' '},
+     {' ',' ',' ',' '},
+     {' ',' ',' ',' '}}
 };
 
 int x = 5, y = 0;
-int b = rand() % 7; // loại block
+int b = 0;
+int score = 0;
 
-bool canMove(int dx, int dy)
-{
-    int nx = x + dx;
-    int ny = y + dy;
-
-    if (nx <= 0 || nx >= W - 4)
-        return false;
-    if (ny >= H - 4)
-        return false;
-
+// ============================ BLOCK CONTROL ===============================
+void eraseBlock() {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (blocks[b][i][j] != ' ')
-                if (board[ny + i][nx + j] != ' ')
-                    return false;
-
-    return true;
+            if (blocks[b][i][j] != ' ') {
+                int ty = y + i;
+                int tx = x + j;
+                if (ty >= 0 && ty < H && tx >= 0 && tx < W)
+                    board[ty][tx] = ' ';
+            }
 }
 
-void block2Board()
-{
+void block2Board() {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (blocks[b][i][j] != ' ')
                 board[y + i][x + j] = blocks[b][i][j];
 }
 
-void eraseBlock()
-{
+bool canMove(int dx, int dy) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (blocks[b][i][j] != ' ')
-                board[y + i][x + j] = ' ';
+            if (blocks[b][i][j] != ' ') {
+
+                int tx = x + j + dx;
+                int ty = y + i + dy;
+
+                // Biên
+                if (tx <= 0 || tx >= W - 1) return false;
+                if (ty >= H - 1) return false;
+
+                // Va chạm
+                if (board[ty][tx] != ' ')
+                    return false;
+            }
+    return true;
 }
 
-// ================= MAIN =================
-int main()
-{
-    system("cls");
+// ============================ LINE CLEAR ===============================
+void clearLines() {
+    int count = 0;
+
+    for (int i = H - 2; i > 0; i--) {
+        int full = 1;
+        for (int j = 1; j < W - 1; j++)
+            if (board[i][j] == ' ')
+                full = 0;
+
+        if (full) {
+            count++;
+
+            // Dồn hàng xuống
+            for (int k = i; k > 0; k--)
+                for (int t = 1; t < W - 1; t++)
+                    board[k][t] = board[k - 1][t];
+
+            for (int t = 1; t < W - 1; t++)
+                board[0][t] = ' ';
+
+            i++;
+        }
+    }
+
+    score += count * 100;
+}
+
+// ============================ DRAW ===============================
+void draw() {
+    gotoxy(0, 0);
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++)
+            cout << board[i][j];
+        cout << endl;
+    }
+    cout << "Score: " << score << endl;
+}
+
+// ============================ MAIN ===============================
+int main() {
+    srand(time(0));
     initBoard();
 
-    int score = 0;
+    b = rand() % 7;
+    x = 5; y = 0;
 
-    while (1)
-    {
-        // ----------- Điều khiển ----------
-        if (kbhit())
-        {
+    while (1) {
+
+        eraseBlock();
+
+        // ---- Control ----
+        if (kbhit()) {
             char c = getch();
-
-            if (c == 'a' && canMove(-1, 0)) { eraseBlock(); x--; }
-            if (c == 'd' && canMove(1, 0))  { eraseBlock(); x++; }
-            if (c == 's' && canMove(0, 1))  { eraseBlock(); y++; }
+            if (c == 'a' && canMove(-1,0)) x--;
+            if (c == 'd' && canMove( 1,0)) x++;
+            if (c == 's' && canMove( 0,1)) y++;
             if (c == 'q') break;
         }
 
-        // ----------- Rơi tự động ----------
-        eraseBlock();
-        y++;
-
-        if (!canMove(0, 1))
-        {
+        // ---- Auto fall ----
+        if (canMove(0,1)) {
+            y++;
+        } else {
             block2Board();
-            clearFullLines(score);  // commit 14 & 15
-            draw(score);
-            Sleep(120);
+            clearLines();
 
-            // reset block
-            x = 5;
-            y = 0;
+            // New block
             b = rand() % 7;
+            x = 5; y = 0;
 
-            continue;
+            // Game Over?
+            if (!canMove(0,0)) {
+                draw();
+                gotoxy(0, H+2);
+                cout << "GAME OVER! Score: " << score;
+                break;
+            }
         }
 
         block2Board();
-        draw(score);
-        Sleep(120);
+        draw();
+        Sleep(180);
     }
 
     return 0;

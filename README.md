@@ -79,9 +79,19 @@ gameplay của Tetris.
   + `Ngô Đình Khôi (24520862)`
     * Tạo nhánh *XuLyVaCham*, viết thêm phần Create: removeline() & isLineFull(), ClearFullLine và ÁP dụng clearFullLines() vào gameplay và vẽ lại.
 - 13/12/2025
+  + `Lê Văn Lộc (24520982)`:
+    * Tạo nhanh *ThemBlock*, viết tính năng thêm block khi block trước đó rơi xuống.
   + `Huỳnh Cao Kỳ (24520923)`:
     * Ở nhánh *XuLyVaCham*, viết thêm hiệu nhấp nháy sau khi xóa được 1 hàng và thêm bộ tính điểm.
-  + `Lê Văn Lộc (24520982)`:
-    * Tạo nhanh *ThemBlock*, 
+- 15/12/2025
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Ở nhánh *XuLyVaCham*, Fix di chuyển cho các khối, đổi lại vị trí của form code.
+  + `Trần Minh Khôi (24520871):
+    * Tạo nhánh *ThaoTacXoay*, viết tính năng cho phép xoay khối theo y muốn.
+- 16/12/2025
+  + `Trần Minh Khôi (24520871):
+    * Tạo nhánh *PauseGame*, viết tính năng cho Pause Game khi muốn.
+  
+  
 
     

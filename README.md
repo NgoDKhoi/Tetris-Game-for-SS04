@@ -78,5 +78,10 @@ gameplay của Tetris.
 - 12/12/2025
   + `Ngô Đình Khôi (24520862)`
     * Tạo nhánh *XuLyVaCham*, viết thêm phần Create: removeline() & isLineFull(), ClearFullLine và ÁP dụng clearFullLines() vào gameplay và vẽ lại.
+- 13/12/2025
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Ở nhánh *XuLyVaCham*, viết thêm hiệu nhấp nháy sau khi xóa được 1 hàng và thêm bộ tính điểm.
+  + `Lê Văn Lộc (24520982)`:
+    * Tạo nhanh *ThemBlock*, 
 
     

@@ -60,5 +60,23 @@ duy không gian và sự linh hoạt khi xử lý tình huống là yếu tố t
 gameplay của Tetris.
 
 ## Quá trình làm việc
+- 8/12/2025:
+  + `Ngô Đình Khôi (24520860)`
+    * Ở nhánh *main*, code phần khởi tạo board Tetris mảng 2D, hiển thị bảng trống.
+    * Tạo nhánh *TuDongRoi*, viết tính năng tự động rơi cho khối.
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Tạo nhánh *TaoBlock*, code phần tạo Block I, O và thêm block vào board.
+    * Ở nhánh *TuDongRoi*, code thêm tính năng tự động rơi.
+- 10/12/2025:
+  + `Ngô Đình Khôi (24520860)`
+    * Tạo nhánh *ThemDiChuyen*, thêm tính năng di chuyển trái phải và Fix lỗi.
+- 11/12/2025
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Ở nhánh *ThemDiChuyen*, viết tăng tốc độ rơi bằng 's' và Sửa lỗi thiếu các block.
+  + `Nguyễn Đình Anh Khôi (24520862):
+    * Ở nhánh *ThemDiChuyen*, viết thêm reset new block.
+- 12/12/2025
+  + `Ngô Đình Khôi (24520862)`
+    * Tạo nhánh *XuLyVaCham*, viết thêm phần Create: removeline() & isLineFull(), ClearFullLine và ÁP dụng clearFullLines() vào gameplay và vẽ lại.
 
-
+    

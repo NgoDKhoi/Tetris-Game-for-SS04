@@ -12,7 +12,7 @@ using namespace std;
 char board[H][W];
 
 void gotoxy(int x, int y) {
-    COORD c = {(SHORT)x, (SHORT)y};
+    COORD c = { (SHORT)x, (SHORT)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
@@ -33,47 +33,48 @@ char blocks[7][4][4] = {
      {' ','I',' ',' '},
      {' ','I',' ',' '}},
 
-    // O
-    {{' ','O','O',' '},
-     {' ','O','O',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}},
+     // O
+     {{' ','O','O',' '},
+      {' ','O','O',' '},
+      {' ',' ',' ',' '},
+      {' ',' ',' ',' '}},
 
-    // T
-    {{' ','T',' ',' '},
-     {'T','T','T',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}},
+      // T
+      {{' ','T',' ',' '},
+       {'T','T','T',' '},
+       {' ',' ',' ',' '},
+       {' ',' ',' ',' '}},
 
-    // S
-    {{' ','S','S',' '},
-     {'S','S',' ',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}},
+       // S
+       {{' ','S','S',' '},
+        {'S','S',' ',' '},
+        {' ',' ',' ',' '},
+        {' ',' ',' ',' '}},
 
-    // Z
-    {{'Z','Z',' ',' '},
-     {' ','Z','Z',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}},
+        // Z
+        {{'Z','Z',' ',' '},
+         {' ','Z','Z',' '},
+         {' ',' ',' ',' '},
+         {' ',' ',' ',' '}},
 
-    // J
-    {{'J',' ',' ',' '},
-     {'J','J','J',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}},
+         // J
+         {{'J',' ',' ',' '},
+          {'J','J','J',' '},
+          {' ',' ',' ',' '},
+          {' ',' ',' ',' '}},
 
-    // L
-    {{' ',' ','L',' '},
-     {'L','L','L',' '},
-     {' ',' ',' ',' '},
-     {' ',' ',' ',' '}}
+          // L
+          {{' ',' ','L',' '},
+           {'L','L','L',' '},
+           {' ',' ',' ',' '},
+           {' ',' ',' ',' '}}
 };
 
 int x = 5, y = 0;
 int b = 0;
 int score = 0;
-bool paused = false;   // <── ⭐ TRẠNG THÁI PAUSE
+bool paused = false;
+
 
 // ============================ BLOCK CONTROL ===============================
 void eraseBlock() {
@@ -112,17 +113,22 @@ bool canMove(int dx, int dy) {
 }
 
 // ============================ ROTATE ===============================
+// Xoay block theo chiều kim đồng hồ
 void rotateBlock() {
-    char temp[4][4], rotated[4][4];
+    char temp[4][4];
 
+    // copy block hiện tại
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             temp[i][j] = blocks[b][i][j];
 
+    // tạo block xoay
+    char rotated[4][4];
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             rotated[j][3 - i] = temp[i][j];
 
+    // Kiểm tra xoay hợp lệ
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (rotated[i][j] != ' ') {
@@ -135,6 +141,7 @@ void rotateBlock() {
                     return;
             }
 
+    // Nếu hợp lệ thì ghi vào blocks[b]
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             blocks[b][i][j] = rotated[i][j];
@@ -152,6 +159,7 @@ void clearLines() {
 
         if (full) {
             count++;
+
             for (int k = i; k > 0; k--)
                 for (int t = 1; t < W - 1; t++)
                     board[k][t] = board[k - 1][t];
@@ -169,19 +177,14 @@ void clearLines() {
 // ============================ DRAW ===============================
 void draw() {
     gotoxy(0, 0);
-    for (int i = 0; i < H; i++)
-    {
+    for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++)
             cout << board[i][j];
         cout << endl;
     }
-
     cout << "Score: " << score << endl;
-
-    if (paused) {
-        cout << "\n=== GAME PAUSED ===";
-        cout << "\nPress P to Resume";
-    }
+    if (paused) cout << "[PAUSED]";
+    else cout << "             ";
 }
 
 // ============================ MAIN ===============================
@@ -194,47 +197,43 @@ int main() {
 
     while (1) {
 
-        // ================= PAUSE CHECK ==================
-        if (kbhit()) {
-            char c = getch();
+        eraseBlock();
 
-            if (c == 'p') {      // toggle pause
-                paused = !paused;
-                draw();          // vẽ lại trạng thái pause
-                continue;        // bỏ qua xử lý còn lại
-            }
-
-            if (!paused) {
-                if (c == 'a' && canMove(-1,0)) x--;
-                if (c == 'd' && canMove(1,0))  x++;
-                if (c == 's' && canMove(0,1))  y++;
+        // ---- Control ----
+        if (_kbhit()) {
+            char c = _getch();
+            if (c == 'p') paused = !paused;   
+            if (!paused) {                   
+                if (c == 'a' && canMove(-1, 0)) x--;
+                if (c == 'd' && canMove(1, 0))  x++;
+                if (c == 's' && canMove(0, 1))  y++;
                 if (c == 'w') rotateBlock();
                 if (c == 'q') break;
             }
         }
 
         if (paused) {
+            block2Board();
+            draw();
             Sleep(100);
-            continue;
+            continue;   // DỪNG TOÀN BỘ LOGIC GAME
         }
-        // =============== HẾT PHẦN PAUSE ==================
 
-        eraseBlock();
-
-        // ---- Rơi tự động ----
-        if (canMove(0,1)) {
+        // ---- Auto fall ----
+        if (canMove(0, 1)) {
             y++;
-        } else {
+        }
+        else {
             block2Board();
             clearLines();
 
             b = rand() % 7;
-            x = 5; 
+            x = 5;
             y = 0;
 
-            if (!canMove(0,0)) {
+            if (!canMove(0, 0)) {
                 draw();
-                gotoxy(0, H+2);
+                gotoxy(0, H + 2);
                 cout << "GAME OVER! Score: " << score;
                 break;
             }

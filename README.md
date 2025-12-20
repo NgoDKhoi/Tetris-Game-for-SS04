@@ -91,7 +91,12 @@ gameplay của Tetris.
 - 16/12/2025
   + `Trần Minh Khôi (24520871):
     * Tạo nhánh *PauseGame*, viết tính năng cho Pause Game khi muốn.
-  
+- 17/12/2025
+  + `Trần Minh Khôi (24520871):
+    * Ở nhánh *PauseGame*, Fix bug tính năng.
+- 20/12/2025
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Ở nhánh *XuLyVaCham*, viết thêm tính năng di chuyển khung xuống dưới
   
 
     

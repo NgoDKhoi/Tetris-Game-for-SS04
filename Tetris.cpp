@@ -7,6 +7,7 @@ using namespace std;
 
 #define H 20
 #define W 15
+#define OFFSET_Y 2
 
 // ============================ BOARD ===============================
 char board[H][W];
@@ -74,7 +75,6 @@ int x = 5, y = 0;
 int b = 0;
 int score = 0;
 bool paused = false;
-
 
 // ============================ BLOCK CONTROL ===============================
 void eraseBlock() {
@@ -176,19 +176,20 @@ void clearLines() {
 
 // ============================ DRAW ===============================
 void draw() {
-    gotoxy(0, 0);
+    gotoxy(0, OFFSET_Y);
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++)
             cout << board[i][j];
         cout << endl;
     }
-    cout << "Score: " << score << endl;
+    cout << "Score: " << score << " " << endl;
     if (paused) cout << "[PAUSED]";
     else cout << "             ";
 }
 
 // ============================ MAIN ===============================
 int main() {
+    system("cls");
     srand(time(0));
     initBoard();
 
@@ -233,7 +234,7 @@ int main() {
 
             if (!canMove(0, 0)) {
                 draw();
-                gotoxy(0, H + 2);
+                gotoxy(0, H + OFFSET_Y + 1);
                 cout << "GAME OVER! Score: " << score;
                 break;
             }
@@ -246,3 +247,5 @@ int main() {
 
     return 0;
 }
+
+

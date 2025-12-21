@@ -67,7 +67,7 @@ gameplay của Tetris.
 | **D** ➡️ | Di chuyển sang phải |
 | **S** ⬇️ | Rơi nhanh |
 | **P** ⏸️ | Tạm dừng |
-| **Q** <img src="icons_exit.png" width="20"/> | Thoát game |
+| **Q** <img src="Image/icons_exit.png" width="20" style="vertical-align:middle;"/> | Thoát game |
 
 ## Quá trình làm việc
 - 8/12/2025:

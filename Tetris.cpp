@@ -186,7 +186,25 @@ void draw() {
     if (paused) cout << "[PAUSED]";
     else cout << "             ";
 }
-
+void drawStaticUI() {
+    int boardRight = W + 5; 
+    gotoxy(boardRight, OFFSET_Y);
+    cout << "== HUONG DAN ==";
+    gotoxy(boardRight, OFFSET_Y + 2);
+    cout << "W: Xoay khoi";
+    gotoxy(boardRight, OFFSET_Y + 3);
+    cout << "A: Sang trai";
+    gotoxy(boardRight, OFFSET_Y + 4);
+    cout << "D: Sang phai";
+    gotoxy(boardRight, OFFSET_Y + 5);
+    cout << "S: Xuong nhanh";
+    gotoxy(boardRight, OFFSET_Y + 7);
+    cout << "P: Tam dung";
+    gotoxy(boardRight, OFFSET_Y + 8);
+    cout << "Q: Thoat game";
+    gotoxy(boardRight, OFFSET_Y + 10);
+    cout << "===============";
+}
 // ============================ MAIN ===============================
 int main() {
     system("cls");
@@ -195,6 +213,7 @@ int main() {
 
     b = rand() % 7;
     x = 5; y = 0;
+    drawStaticUI();
 
     while (1) {
 

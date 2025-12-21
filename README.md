@@ -59,6 +59,16 @@ phẳng, chừa chỗ tạo Tetris – phá 4 hàng cùng lúc). Khả năng ph�
 duy không gian và sự linh hoạt khi xử lý tình huống là yếu tố then chốt trong
 gameplay của Tetris.
 
+### Hướng dẫn chơi game
+| Phím | Chức năng |
+|-----|----------|
+| **W** ⬆️ | Xoay khối |
+| **A** ⬅️ | Di chuyển sang trái |
+| **D** ➡️ | Di chuyển sang phải |
+| **S** ⬇️ | Rơi nhanh |
+| **P** ⏸️ | Tạm dừng |
+| **Q** <img src="icons_exit.png" width="20"/> | Thoát game |
+
 ## Quá trình làm việc
 - 8/12/2025:
   + `Ngô Đình Khôi (24520860)`
@@ -96,7 +106,10 @@ gameplay của Tetris.
     * Ở nhánh *PauseGame*, Fix bug tính năng.
 - 20/12/2025
   + `Huỳnh Cao Kỳ (24520923)`:
-    * Ở nhánh *XuLyVaCham*, viết thêm tính năng di chuyển khung xuống dưới
+    * Ở nhánh *XuLyVaCham*, viết di chuyển khung xuống dưới.
+- 21/12/2025
+  + `Huỳnh Cao Kỳ (24520923)`:
+    * Ở nhánh *XuLyVaCham*, viết thêm bảng hướng dẫn chơi game
   
 
     

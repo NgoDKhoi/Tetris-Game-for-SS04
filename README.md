@@ -96,13 +96,13 @@ gameplay của Tetris.
 - 15/12/2025
   + `Huỳnh Cao Kỳ (24520923)`:
     * Ở nhánh *XuLyVaCham*, Fix di chuyển cho các khối, đổi lại vị trí của form code.
-  + `Trần Minh Khôi (24520871):
+  + `Trần Minh Khôi (24520871)`:
     * Tạo nhánh *ThaoTacXoay*, viết tính năng cho phép xoay khối theo y muốn.
 - 16/12/2025
-  + `Trần Minh Khôi (24520871):
+  + `Trần Minh Khôi (24520871)`:
     * Tạo nhánh *PauseGame*, viết tính năng cho Pause Game khi muốn.
 - 17/12/2025
-  + `Trần Minh Khôi (24520871):
+  + `Trần Minh Khôi (24520871)`:
     * Ở nhánh *PauseGame*, Fix bug tính năng.
 - 20/12/2025
   + `Huỳnh Cao Kỳ (24520923)`:
